@@ -32,7 +32,7 @@ def main():
     init()  # Configurações iniciais do OpenGL
 
     pos_x, pos_y = 0.0, 0.0  # Posição inicial do círculo
-    rotation = 0.0  # Rotação inicial do círculo
+    rotation_x, rotation_y, rotation_z = 0.0, 0.0, 0.0  # Rotação inicial do círculo
     zoom = -5.0  # Zoom inicial
 
     running = True  # Variável de controle do loop principal
@@ -49,14 +49,14 @@ def main():
                     pos_y -= 0.1
                 elif event.key == K_a:  # Move para esquerda e rotaciona sentido anti-horário
                     pos_x -= 0.1
-                    rotation += 16.0
+                    rotation_z += 16.0
                 elif event.key == K_d:  # Move para direita e rotaciona sentido horário
                     pos_x += 0.1
-                    rotation -= 16.0
-                elif event.key == K_f:  # Rotaciona sentido horário
-                    rotation -= 16.0  # Aumenta a velocidade de rotação
-                elif event.key == K_r:  # Rotaciona sentido anti-horário
-                    rotation += 16.0  # Aumenta a velocidade de rotação
+                    rotation_z -= 16.0
+                elif event.key == K_f:  # Rotaciona para a direita no eixo Y
+                    rotation_y += 16.0
+                elif event.key == K_r:  # Rotaciona para a esquerda no eixo Y
+                    rotation_y -= 16.0
                 elif event.key == K_z:  # Zoom out
                     zoom -= 0.5
                 elif event.key == K_x:  # Zoom in
@@ -70,7 +70,9 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)  # Limpa a tela e o buffer de profundidade
         glLoadIdentity()  # Reseta a matriz de modelagem
         glTranslatef(pos_x, pos_y, zoom)  # Aplica a translação
-        glRotatef(rotation, 0.0, 0.0, 1.0)  # Aplica a rotação
+        glRotatef(rotation_x, 1.0, 0.0, 0.0)  # Aplica a rotação no eixo X
+        glRotatef(rotation_y, 0.0, 1.0, 0.0)  # Aplica a rotação no eixo Y
+        glRotatef(rotation_z, 0.0, 0.0, 1.0)  # Aplica a rotação no eixo Z
         glColor3f(0.0, 1.0, 0.0)  # Define a cor do círculo como verde
         draw_circle(2)  # Chama a função para desenhar o círculo com raio 2
         pygame.display.flip()  # Atualiza a tela
